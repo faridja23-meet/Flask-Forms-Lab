@@ -8,15 +8,49 @@ app = Flask(  # Create a flask app
 )
 
 
-username = "llo2ay"
+username = "farid"
 password = "123"
 facebook_friends=["Loai","Yonathan","Adan", "George", "Fouad", "Celina"]
 
 
-@app.route('/')  # '/' for the default page
+@app.route('/', methods= ["GET","POST"])  # '/' for the default page
 def login():
-  return render_template('login.html')
-  
+    if request.method == 'GET':
+        return render_template('login.html')
+    else:
+        name = request.form['username']
+        Password = request.form['password']
+       
+        if name == "farid" and Password == "123":
+            return render_template('home.html' , facebook_friends = facebook_friends)
+        else:
+            return render_template('login.html')
+
+@app.route('/home')
+def home():
+    return render_template('home.html')
+
+
+
+@app.route('/friends_exits/<string:name>' , methods= ["GET","POST"])
+def existing_friends( name ):
+    isfriend=False
+    for x in facebook_friends:
+        if name ==x:
+            isfriend=True
+    return render_template('friend_exists.html', isfriend = isfriend)
+
+    if request.method == 'GET':
+        return render_template('friends_exits.html')
+    
+
+
+
+
+
+
+
+   
 
 
 
